@@ -29,3 +29,4 @@ ROTATIONS = ("Main", "Pop")
 # Other
 BUFSIZE = 65536
 WEB_BASE_URL = "https://web.host.com/"
+ICECAST_BASE_URL = "http://{{ICECAST_HTTP_HOST}}:{{ICECAST_HTTP_PORT}}/"  # you can change http to https

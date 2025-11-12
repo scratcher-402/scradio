@@ -217,7 +217,7 @@ def global_variables():
 
 @app.route("/")
 def root():
- return render_template("index.html", metadata=metadata)
+ return render_template("index.html", metadata=metadata, icecast_base_url=ICECAST_BASE_URL)
 
 
 @app.route("/feedback")

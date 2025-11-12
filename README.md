@@ -1,2 +1,10 @@
 # scradio
-Online radio station with automatic streamer and website
+Онлайн-радиостанция с автоматическим диджеем и веб-сайтом
+## Зависимости
+- Python 3.10 или новее
+- FFmpeg
+## Структура для развёртывания
+- Стример (`main.py`)
+- Веб-приложение (`app.py`, не обязательно для работы стримера)
+- База данных PostgreSQL
+- Медиасервер Icecast

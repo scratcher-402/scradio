@@ -106,16 +106,16 @@ window.addEventListener('resize', checkTextOverflow);
 const playerStreams = [
 {
 "name": "Opus",
-"url": "https://scradio.30x.ru:8443/scradio.opus",
+"url": "{{icecast_base_url}}scradio.opus",
 "type": "audio/ogg"
 },
 {
 "name": "MP3",
-"url": "https://scradio.30x.ru:8443/scradio",
+"url": "{{icecast_base_url}}scradio",
 "type": "audio/mpeg"
 }
 ];
-const metadataUrl = 'https://scradio.30x.ru/api/metadata?likes=1';
+const metadataUrl = '/api/metadata?likes=1';
 
 // дефолт конфиг
 const defaultConfig = {
@@ -255,10 +255,10 @@ function togglePlay(playBtn, songObj) {
 
 function likeSong(likeBtn, song_id, rating, again, updateFunc) {
 	if ('fa-spinner' in likeBtn.classList) return;
-	let fetchUrl = "https://scradio.30x.ru/api/songs/"+song_id+"/like";
+	let fetchUrl = "/api/songs/"+song_id+"/like";
 	callbackClass = "fa-thumbs-up";
 	if (rating == -1) {
-		fetchUrl = "https://scradio.30x.ru/api/songs/"+song_id+"/dislike";
+		fetchUrl = "/api/songs/"+song_id+"/dislike";
 		callbackClass = "fa-thumbs-down"
 		}
 	if (likeBtn.classList.contains('fa-solid')) {
@@ -309,7 +309,7 @@ function createPlaylistEntry(song, playlistContainer) {
 	const songDislike = document.createElement("i");
 	
 	// вставляем значения
-	songCover.src = `https://scradio.30x.ru/static/media/Covers/${song.album_id}.jpg`; // почему я просто не вставил туда ссылку? двойные стандарты api!
+	songCover.src = `/static/media/Covers/${song.album_id}.jpg`; // почему я просто не вставил туда ссылку? двойные стандарты api!
 	songTitle.innerText = song.title;
 	songArtist.innerText = song.artist;
 	
