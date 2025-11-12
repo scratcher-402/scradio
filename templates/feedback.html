@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Обратная связь | SCRadio</title>
+<meta name="description" content="Форма обратной связи SCRadio. Здесь можно оставить отзыв, жалобу или предложение">
+<meta property="og:title" content="SCRadio | Главная страница">
+<meta property="og:description" content="Форма обратной связи SCRadio. Здесь можно оставить отзыв, жалобу или предложение">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://scradio.30x.ru/feedback">
+<meta property="og:image" content="https://scradio.30x.ru/static/scradio.png">
+{% endblock %}
+{% block content %}
+<h1>Форма обратной связи</h1>
+Здесь можно оставить отзыв, написать жалобу, сообщить об ошибке или предложить идею по улучшению SCRadio.
+<br>
+{% if message %}
+{% if message.status == 1 %}
+<div class="block2">
+<i class="fa-solid fa-circle-check status-green"></i> Спасибо за обращение!
+</div>
+{% else %}
+<div class="block2">
+<i class="fa-solid fa-circle-xmark status-red"></i> Произошла ошибка
+</div>
+{% endif %}
+{% endif %}
+<form action="/forms/feedback" method="post" class="block2">
+<div class="form-row">
+<label for="name" required>Ваше имя:</label><input type="text" name="name" required maxlength="100"></input>
+</div>
+<div class="form-row">
+<label for="email">E-mail для обр. связи: </label><input type="text" name="email" maxlength="100"></input>
+</div>
+<div class="form-row">
+<textarea name="message" required maxlength="100" placeholder="Ваше сообщение (до 4096 симв.)" required rows="5"></textarea>
+</div>
+<button type="submit"><i class="fa-solid fa-paper-plane"></i> Отправить</button>
+</form>
+{% endblock %}

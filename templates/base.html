@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/scradio.png">
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+<div class="header">
+	<a href="/"><img src="/static/scradio.png" class="logo"></img> SCRadio</a>
+</div>
+<div class="content">
+{% block content %}
+{% endblock %}
+</div>
+<div class="footer">
+SCRadio (VSRadio) {{version_string}}
+<div class="links">
+<a href="/feedback"><i class="fa-solid fa-paper-plane"></i> Обратная связь </a>
+<a href="/info"><i class="fa-solid fa-tower-broadcast"></i> Как послушать </a>
+</div>
+</div>
+</body>
+</html>

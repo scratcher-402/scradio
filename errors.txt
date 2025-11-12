@@ -1,0 +1,13 @@
+
+---- [2025-09-29 07:01:26.564943] ----
+Traceback (most recent call last):
+  File "/root/scradio/main.py", line 119, in <module>
+    ffmpeg_pipe.stdin.write(block)
+BrokenPipeError: [Errno 32] Broken pipe
+
+---- [2025-09-29 07:27:27.910105] ----
+Traceback (most recent call last):
+  File "/root/scradio/main.py", line 143, in <module>
+    thr = threading.Thread(target=update_metadata, args=(pl,))
+                                                         ^^
+NameError: name 'pl' is not defined

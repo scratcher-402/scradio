@@ -1,0 +1,445 @@
+:root {
+	--main: #FF6F00;
+	--dark-bg: #A64800;
+	--light-bg: #FF9340;
+	--light: #FFB073;
+	}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+	}
+
+body {
+	background-color: var(--dark-bg);
+	}
+
+.header {
+	width: 100%;
+	height: 64px;
+	padding: 5px;
+	line-height: 54px;
+	color: var(--light);
+	background-color: var(--dark-bg);
+	font-size: 48px;
+	font-weight: 600;
+	}
+
+
+.header .logo {
+	width: 48px;
+	height: 48px;
+	margin-right: 10px;
+	float: left;
+	}
+	
+.header a {
+	text-decoration: none;
+	color: inherit;
+	}
+
+.footer {
+	width: 100%;
+	background-color: var(--dark-bg);
+	color: var(--light);
+	font-size: 20px;
+	padding: 10px;
+	text-align: center;
+	}
+
+.content {
+	min-height: 80vh;
+	background-color: white;
+	padding: 5px;
+	}
+	
+.block {
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 10px;
+	color: black;
+	font-size: 20px;
+	margin-bottom: 10px;
+	}
+
+.block h1 {
+	color: var(--main);
+	font-size: 30px;
+	}
+
+.block i {
+	float: left;
+	font-size: 48px;
+	margin: 5px;
+	}
+
+.footer .links a {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	}
+
+.player {
+	border: 1px solid black;
+	border-radius: 10px;
+	overflow: hidden;
+	height: 150px;
+	width: clamp(300px, 100%, 700px);
+	}
+
+.player img {
+	float: left;
+	height: 100px;
+	border-radius: 5px;
+	}
+
+.player .toolbar-container {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	}
+
+.player .toolbar-container .toolbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: clamp(25px, 8vw, 60px);
+	}
+
+.player .toolbar-container .toolbar i {
+	font-size: 24px;
+	color: black;
+	float: left;
+	margin-right: 2px;
+	}
+
+.player .song-info {
+	display: inline-block;
+	margin: 10px;
+	color: black;
+	font-size: 16px;
+	width: calc(100% - 130px);
+	white-space: nowrap;
+	overflow: hidden;
+	}
+
+.player .song-info .song-info-string {
+	display: inline-block;
+	width: 100%;
+	}
+
+.player .song-info i {
+	margin-right: 5px;
+	}
+.song-like-container {
+	height: 24px;
+	}
+	
+.likes_count {
+	font-weight: bold;
+	line-height: 24px;
+	vertical-align: middle;
+	display: inline-block;
+	}
+
+#song-info-title {
+	font-size: 32px;
+	color: var(--main);
+	font-weight: 600;
+	margin-left: 0;
+	max-width: calc(100% - 10px);
+	}
+
+.scroll {
+	margin: 0;
+	max-width: 100%;
+	}
+
+.scroll-animation {
+	white-space: nowrap;
+	animation: scroll-horizontal linear 5s infinite;
+	}
+	
+@keyframes scroll-horizontal {
+	0% {
+		transform: translateX(20%);
+		}
+	100% {
+		transform: translateX(var(--scroll-distance, -100%));
+		}
+	}
+
+.player .song-info .progress-mega-container {
+	display: none;
+	}
+
+.player audio {
+	display: none;
+	}
+
+@media (min-width: 700px) {
+	.player {
+		height: 150px;
+		width: 700px;
+		}
+.player img {
+	height: 100%;
+	}
+.player .song-info {
+	width: calc(100% - 190px);
+	}
+.player .toolbar-container {
+	margin-top: 0px;
+	}
+	.player .song-info .progress-mega-container {
+		display: inline-block;
+		font-size: 10px;
+		width: 100%;
+		}
+	.player .song-info .progress-container {
+		display: inline-block;
+		height: 8px;
+		width: calc(100% - 64px);
+		background-color: var(--light);
+		border-radius: 4px;
+		vertical-align: middle;
+		}
+	.progress-container .progress {
+		display: block;
+		width: 10%;
+		height: 8px;
+		background-color: var(--main);
+		border-radius: 4px;
+		position: relative;
+		}
+	.player .song-info .progress-text {
+		display: inline-block;
+		height: 8px;
+		line-height: 8px;
+		}
+}
+
+/* Стили модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    animation: modalShow 0.3s ease;
+    text-align: center;
+    height: 80%;
+    max-height: 700px;
+}
+
+@keyframes modalShow {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-content h1 {
+	color: var(--main);
+	}
+
+.modal-text {
+	height: calc(100% - 60px);
+	overflow-y: scroll;
+	text-align: center;
+	border-radius: 5px;
+	}
+
+button {
+	margin: 5px;
+	padding: 3px;
+	font-size: 16px;
+	}
+
+.track {
+	display: flex;
+	align-items: center;
+	height: 50px;
+	width: 100%;
+	border: 1px solid var(--dark-bg);
+	border-radius: 10px;
+	margin-bottom: 5px;
+	overflow: hidden;
+	}
+.track img {
+	width: 50px;
+	height: 50px;
+	flex-shrink: 0;
+	margin-right: 10px;
+	border-radius: 5px;
+	}
+
+.track i {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	font-size: 32px;
+	line-height: 50px;
+	}
+
+.track-info {
+	flex: 1;
+	min-width: 0;
+	margin-right: 10px;
+	overflow: hidden;
+	}
+
+.track-title {
+	font-size: 20px;
+	width: 100%;
+	white-space: nowrap;
+	font-weight: bold;
+	}
+
+.track-artist {
+	font-size: 12px;
+	width: 100%;
+	white-space: nowrap;
+	}
+h1, h2 {
+	color: var(--main);
+	}
+
+.block2 {
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 7px;
+	color: black;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	display: block;
+	width: 100%;
+	max-width: 700px;
+	}
+.form-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 5px;
+	width: 100%;
+	}
+
+.form-row label {
+	flex-shrink: 0;
+	}
+
+.form-row input,
+.form-row textarea {
+	flex: 1;
+	min-width: 0;
+	}
+
+form {
+	text-align: center;
+	}
+
+label[required]::after {
+	content: "* ";
+	color: var(--main);
+	}
+
+.status-green {
+	color: green;
+	}
+
+.status-red {
+	color: red;
+	}
+
+.request-header {
+	font-size: 20px;
+	font-weight: bold;
+	}
+
+.request-method {
+	display: inline-block;
+	color: white;
+	font-size: 12px;
+	height: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 10px;
+	vertical-align: top;
+	line-height: 20px;
+	margin: 0 2px;
+	font-weight: bold;
+	}
+
+.request-method[type="GET"] {
+    background-color: green;
+}
+.request-method[type="GET"]::before {
+    content: "GET";
+}
+
+.request-method[type="POST"] {
+    background-color: blue;
+}
+.request-method[type="POST"]::before {
+    content: "POST";
+}
+
+.request-method[type="PATCH"] {
+    background-color: purple;
+}
+.request-method[type="PATCH"]::before {
+    content: "PATCH";
+}
+
+.request-method[type="DELETE"] {
+    background-color: red;
+}
+.request-method[type="DELETE"]::before {
+    content: "DELETE";
+}
+
+code {
+	display: inline-block;
+	font-family: monospace;
+	font-size: 16px;
+	min-height: 22px;
+	padding: 3px;
+	width: 95%;
+	white-space: pre;
+	overflow-x: scroll;
+	border-radius: 3px;
+	color: white;
+	background-color: #333;
+	}
+
+inlinecode {
+	display: inline-block;
+	font-family: monospace;
+	font-size: 12px;
+	height: 16px;
+	padding: 2px;
+	white-space: nowrap;
+	border-radius: 2px;
+	color: white;
+	background-color: #333;
+	margin: 0 3px;
+	}

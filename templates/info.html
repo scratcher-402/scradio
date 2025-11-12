@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Как послушать SCRadio</title>
+{% endblock head %}
+{% block content %}
+<h1>Как послушать SCRadio?</h1>
+<br>
+<div class="block2">
+<h2>Онлайн-плеер</h2>
+Лучше всего слушать вещание в нашем <a href="/">онлайн-плеере</a>. В нём доступны метаданные, тексты песен и возможность голосовать за любимые треки.<br>
+<br>
+<h2>Плееры для интернет-радио</h2>
+Некоторые медиаплееры (например, VLC и AIMP) поддерживают воспроизведение онлайн-радио.<br>
+Чтобы послушать через них SCRadio, используйте URL наших потоков:<br>
+<inlinecode>https://scradio.30x.ru:8443/scradio.opus</inlinecode> (формат Opus, 128 кбит/с)<br>
+<inlinecode>https://scradio.30x.ru:8443/scradio</inlinecode> (формат MP3, 256 кбит/с)<br>
+Если ваш плеер не поддерживает HTTPS, попробуйте альтернативные ссылки:<br>
+<inlinecode>http://scradio.30x.ru:8000/scradio.opus</inlinecode> (формат Opus, 128 кбит/с)<br>
+<inlinecode>http://scradio.30x.ru:8000/scradio</inlinecode> (формат MP3, 256 кбит/с)<br>
+К сожалению, метаданные передаются только по ссылке в формате MP3 и содержат только название песни и исполнителя. Если вы умеете программировать, можете попробовать встроить в какой-нибудь плеер получение расширенных метаданных. Получать их можно по ссылке<br>
+<inlinecode>https://scradio.30x.ru/api/metadata</inlinecode>
+
+</div>
+{% endblock %}
+
+	
