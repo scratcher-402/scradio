@@ -211,13 +211,13 @@ app.register_blueprint(api)
 
 @app.context_processor
 def global_variables():
-	return {"version_string": VERSION_STRING}
+	return {"version_string": VERSION_STRING, "web_base_url": WEB_BAASE_URL, "icecast_base_url": ICECAST_BASE_URL}
 
 # Страницы
 
 @app.route("/")
 def root():
- return render_template("index.html", metadata=metadata, icecast_base_url=ICECAST_BASE_URL)
+ return render_template("index.html", metadata=metadata)
 
 
 @app.route("/feedback")
@@ -240,8 +240,6 @@ def feedback_form():
 	add_feedback(ip, name, email, message)
 	return render_template("feedback.html", message={"status": 1})
 
-@app.route("/headers")
-def headers():
-    return jsonify(dict(request.headers))
+
 if __name__ == "__main__":
 	app.run("0.0.0.0", 8999, debug=True)
