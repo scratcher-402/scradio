@@ -16,7 +16,7 @@ CREATE TABLE albums (
     meta jsonb
 );
 """
-    )
+, commit=True)
     db.execute(
 """
 CREATE TABLE feedback (
@@ -27,7 +27,7 @@ CREATE TABLE feedback (
     text character varying(4096) NOT NULL
 );
 """
-    )
+, commit=True)
     db.execute(
 """
 CREATE TABLE songs (
@@ -47,7 +47,7 @@ CREATE TABLE songs (
     duration bigint
 );
 """
-    )
+, commit=True)
     db.execute(
 """
 CREATE TABLE likes (
@@ -56,7 +56,7 @@ CREATE TABLE likes (
     rating smallint
 );
 """
-)
+, commit=True)
     db.execute(
 """
 CREATE FUNCTION inthash(n integer) RETURNS integer
@@ -65,7 +65,7 @@ CREATE FUNCTION inthash(n integer) RETURNS integer
 select (n * 785 + 29) % 515
 $$;
 """
-    )
+, commit=True)
     db.execute(
 """
 CREATE FUNCTION song_likes(id integer, r integer) RETURNS integer
@@ -74,7 +74,7 @@ CREATE FUNCTION song_likes(id integer, r integer) RETURNS integer
     select count(*) from likes where song_id = id and rating = r;
 $$;
 """
-    )
+, commit=True)
 
 
 if __name__ == "__main__":
