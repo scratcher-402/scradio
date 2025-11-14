@@ -164,7 +164,7 @@ app.register_blueprint(api)
 
 @app.context_processor
 def global_variables():
-	return {"version_string": VERSION_STRING, "web_base_url": WEB_BAASE_URL, "icecast_base_url": ICECAST_BASE_URL}
+	return {"version_string": VERSION_STRING, "web_base_url": WEB_BASE_URL, "icecast_base_url": ICECAST_BASE_URL}
 
 # Страницы
 
