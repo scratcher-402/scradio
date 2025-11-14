@@ -8,8 +8,6 @@ from mutagen.easyid3 import EasyID3
 import psycopg2
 import sys
 from config import *
-reload(sys)
-sys.setdefaultencoding("UTF-8")
 
 # Config
 DIR_PATH = MEDIA_PATH
