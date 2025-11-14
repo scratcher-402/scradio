@@ -1,3 +1,4 @@
+# coding: utf-8
 import os
 import datetime
 import subprocess
@@ -8,6 +9,7 @@ import psycopg2
 import sys
 from config import *
 
+sys.setdefaultencoding("UTF-8")
 
 # Config
 DIR_PATH = MEDIA_PATH
