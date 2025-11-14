@@ -179,6 +179,9 @@ def conv_add_song(fn=sys.argv[1]):
 	conn.close()
 
 if __name__ == "__main__":
+    for dir in ("Covers", "Music", "Temp"):
+        if not os.path.exists(os.path.join(MEDIA_PATH, dir)):
+            os.makedirs(os.path.join(MEDIA_PATH, dir))
 	conv_add_song()
 	
 			
