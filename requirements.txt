@@ -1,0 +1,6 @@
+flask
+flask-limiter
+psycopg2-binary
+mutagen
+pillow
+progress

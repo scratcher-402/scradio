@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request, render_template, jsonify, redirect, url_for
+from flask import Flask, Blueprint, request, render_template, jsonify, redirect, url_for, abort, send_from_directory
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import psycopg2
@@ -9,6 +9,7 @@ from config import *
 from datetime import datetime, timedelta
 from dataclasses import dataclass, asdict
 from db import AutoReconnectDB
+import os
 
 app = Flask(__name__)
 limiter = Limiter(app=app, key_func=get_remote_address, default_limits=[])
@@ -191,6 +192,23 @@ def feedback_form():
 	message = request.form.get("message")
 	add_feedback(ip, name, email, message)
 	return render_template("feedback.html", message={"status": 1})
+
+
+def is_safe_path(parent_path, child_path):
+    try:
+        parent_real = os.path.realpath(parent_path)
+        target_real = os.path.realpath(os.path.join(parent_real, child_path))
+        return os.path.commonpath([parent_real]) == os.path.commonpath([parent_real, target_real])
+    except (ValueError, OSError):
+        return False
+
+@app.route("/static/media/<path:filename>")
+def send_media_file(filename):
+    file_path = os.path.join(MEDIA_PATH, filename)
+    if is_safe_path(MEDIA_PATH, file_path):
+        return send_from_directory(MEDIA_PATH, filename)
+    else:
+        abort(403)
 
 
 if __name__ == "__main__":
