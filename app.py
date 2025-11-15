@@ -212,4 +212,4 @@ def send_media_file(filename):
 
 
 if __name__ == "__main__":
-	app.run("0.0.0.0", 8999, debug=True)
+	app.run(WEB_HOST, WEB_PORT, debug=True)

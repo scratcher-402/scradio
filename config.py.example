@@ -4,30 +4,34 @@ VERSION = (3, 1)
 VERSION_STRING = ".".join(( str(v) for v in VERSION ))
 
 # Paths
-MEDIA_PATH = "/var/media/scradio"
-PROG_PATH = "/root/scradio"
+MEDIA_PATH = "/home/user/scradio/media"
+PROG_PATH = "/home/user/scradio"
 
 # Database
 DB_HOST = "db.host.com"
 DB_PORT = 5432
-DB_USER = "postgres"
-DB_PASSWORD = "p3ssw0rd"
+DB_USER = "scradio"
+DB_PASSWORD = "1"
 DB_NAME = "scradio"
 
 # Passwords and secrets
 METADATA_SECRET = "53c1237"
 ICECAST_SOURCE_USER = "source"
-ICECAST_SOURCE_PASSWORD = "50u12c3"
+ICECAST_SOURCE_PASSWORD = "1"
 ICECAST_ADMIN_USER = "admin"
-ICECAST_ADMIN_PASSWORD = "adm1n"
+ICECAST_ADMIN_PASSWORD = "1"
+
+# Hosts/ports
 ICECAST_HTTP_HOST = "icecast.host.com"
 ICECAST_HTTP_PORT = 8000
+WEB_HOST = "127.0.0.1" # leave blank for any host
+WEB_PORT = 8991
 
 # Playlist
 ROTATIONS = ("Main", "Pop")
 
 # Other
 BUFSIZE = 65536
-WEB_BASE_URL = "https://web.host.com/"
+WEB_BASE_URL = f"http://{WEB_HOST}:{WEB_PORT}/"
 ICECAST_BASE_URL = f"http://{ICECAST_HTTP_HOST}:{ICECAST_HTTP_PORT}/"  # you can change http to https
 DEFAULT_EDITOR = "micro"

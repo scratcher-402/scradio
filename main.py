@@ -8,6 +8,7 @@ import subprocess
 import traceback
 import requests
 import threading
+from db import *
 
 @dataclass
 class Song:
@@ -110,12 +111,11 @@ class SmartPlaylist:
 	
 
 def fetch_songs_from_db():
-	conn = psycopg2.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, password=DB_PASSWORD, dbname=DB_NAME)
-	cur = conn.cursor()
-	cur.execute("select s.id, s.title, s.artist, s.album, s.artist_solo, s.lyrics, s.album_id, s.filename, s.playlist, s.duration, a.cover_filename from songs s, albums a where s.loaded = true and s.allowed = true and a.id = s.album_id order by random();")
-	songs = [ Song(*row) for row in cur.fetchall() ]
-	cur.close()
-	conn.close()
+	db = AutoReconnectDB(host=DB_HOST, port=DB_PORT, user=DB_USER, password=DB_PASSWORD, dbname=DB_NAME)
+	r = db.execute("select s.id, s.title, s.artist, s.album, s.artist_solo, s.lyrics, s.album_id, s.filename, s.playlist, s.duration, a.cover_filename from songs s, albums a where s.loaded = true and s.allowed = true and a.id = s.album_id order by random();")
+	songs = [ Song(*row) for row in r ]
+	print(r)
+	db.close()
 	return songs
 
 def test_pl():

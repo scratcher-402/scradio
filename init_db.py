@@ -53,7 +53,8 @@ CREATE TABLE songs (
 CREATE TABLE likes (
     ip inet,
     song_id integer,
-    rating smallint
+    rating smallint,
+    constraint unique_like unique (ip, song_id)
 );
 """
 , commit=True)

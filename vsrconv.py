@@ -149,7 +149,10 @@ def conv_add_song(fn=sys.argv[1]):
 		if choice not in ("н", "Н", "n", "N"):
 			lyrics = edit_lyrics(lyrics)
 		_playlist = input(f"Плейлист[{playlist}]: ")
-		if _playlist: playlist = _playlist
+		if _playlist:
+			playlist = _playlist
+			if not os.path.exists(os.path.join(MEDIA_PATH, 'Music', playlist)):
+				os.makedirs(os.path.join(MEDIA_PATH, 'Music', playlist))
 		if not cover:
 			choice = input("Получить обложку из файла? [Д/н/Y/n]: ")
 			if choice not in ("н", "Н", "n", "N"):

@@ -13,7 +13,8 @@ class AutoReconnectDB:
         """Установить соединение с БД"""
         for attempt in range(self.max_retries):
             try:
-                self.connection = psycopg2.connect(**self.connection_kwargs)
+                self.connection = psycopg2.connect(**self.connection_kwargs, client_encoding = 'utf8', options='-c client_encoding=utf8')
+                self.connection.set_client_encoding('UTF8')
                 print("Соединение с БД установлено")
                 return
             except OperationalError as e:
