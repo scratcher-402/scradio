@@ -8,6 +8,7 @@ from mutagen.easyid3 import EasyID3
 import psycopg2
 import sys
 from config import *
+import argparse
 
 # Config
 DIR_PATH = MEDIA_PATH
@@ -100,6 +101,9 @@ def convert_song(fn, title, artist, album, lyrics, album_id, artist_solo, cover,
 	wp = subprocess.Popen(("ffmpeg", "-i", fn, "-f", "wav", wtfn))
 	if wp.wait() != 0: raise Exception("ffmpeg error")
 	ofn = os.path.join(DIR_PATH, "Music", playlist, f"{artist} - {title} - {id}.opus")
+	fld = os.path.join(DIR_PATH, "Music", playlist)
+	if not os.path.exists(fld):
+	    os.makedirs(fld)
 	oparams = ["opusenc", "--bitrate", "128", "--title", title, "--artist", artist, "--album", album, "--comment", f"vsr_song_id={id}", "--comment", f"vsr_album_id={album_id}", "--comment", f"artist_solo={artist_solo}", "--comment", f"vsr_playlist={playlist}"]
 	if lyrics:
 		oparams.append("--comment")
@@ -114,7 +118,7 @@ def convert_song(fn, title, artist, album, lyrics, album_id, artist_solo, cover,
 	os.remove(wtfn)
 	return fn
 
-def conv_add_song(fn=sys.argv[1]):
+def conv_add_song(fn, quiet=False, album_id_arg=None, pl=None):
 	print("Конвертируем", fn)
 	conn, cur = init_db()
 	meta = read_metadata(fn)
@@ -129,40 +133,37 @@ def conv_add_song(fn=sys.argv[1]):
 	cover = False
 	correct = False
 	while not correct:
-		_title = input(f"Название[{title}]: ")
+		_title = None if quiet else input(f"Название[{title}]: ")
 		if _title: title = _title
-		choice = input("(1): Новый альбом\n(2):Указать существующий альбом\nВаш выбор[1]: ")
-		if not choice or choice == "1":
-			_artist = input(f"Исполнитель[{artist}]: ")
+		choice = 3 if quiet else input("(1): Новый альбом\n(2):Указать существующий альбом\nВаш выбор[1]: ")
+		if not choice or choice == "1" or (choice == 3 and not album_id_arg):
+			_artist = None if quiet else input(f"Исполнитель[{artist}]: ")
 			if _artist: artist = _artist
-			_album = input(f"Альбом[{album}]: ")
+			_album = None if quiet else input(f"Альбом[{album}]: ")
 			if _album: album = _album
-			_artist_solo = input(f"Солист[{artist_solo}]: ")
+			_artist_solo = None if quiet else input(f"Солист[{artist_solo}]: ")
 			if _artist_solo: artist_solo = _artist_solo
-			_year = input(f"Год[{year}]: ")
+			_year = 2025 if quiet else input(f"Год[{year}]: ")
 			if _year: year = _year
 		else:
-			album_id = int(input("ID альбома: "))
+			album_id = album_id_arg if quiet else int(input("ID альбома: "))
 			album, artist, artist_solo = db_get_album(cur, album_id)
 		print("Текст песни: ", lyrics)
-		choice = input("Редактировать текст? [Д/н/Y/n]: ")
-		if choice not in ("н", "Н", "n", "N"):
+		choice = None if quiet else input("Редактировать текст? [Д/н/Y/n]: ")
+		if choice not in ("н", "Н", "n", "N") and not quiet:
 			lyrics = edit_lyrics(lyrics)
-		_playlist = input(f"Плейлист[{playlist}]: ")
-		if _playlist:
-			playlist = _playlist
-			if not os.path.exists(os.path.join(MEDIA_PATH, 'Music', playlist)):
-				os.makedirs(os.path.join(MEDIA_PATH, 'Music', playlist))
+		_playlist = (pl if pl else "Main") if quiet else input(f"Плейлист[{playlist}]: ")
+		if _playlist: playlist = _playlist
 		if not cover:
-			choice = input("Получить обложку из файла? [Д/н/Y/n]: ")
-			if choice not in ("н", "Н", "n", "N"):
+			choice = None if quiet else input("Получить обложку из файла? [Д/н/Y/n]: ")
+			if choice not in ("н", "Н", "n", "N") or quiet:
 				cover = get_cover(fn)
 				if cover:
 					print("Обложка получена")
 				else:
 					print("Не удалось получить обложку!")
-		choice = input("Введенные данные корректны? [Д/н/Y/n]: ")
-		if choice not in ("н", "Н", "n", "N"): correct = True
+		choice = None if quiet else input("Введенные данные корректны? [Д/н/Y/n]: ")
+		if choice not in ("н", "Н", "n", "N") or quiet: correct = True
 		else: correct = False
 	rewrite_cover = True
 	if album_id:
@@ -185,6 +186,13 @@ if __name__ == "__main__":
     for dir in ("Covers", "Music", "Temp"):
         if not os.path.exists(os.path.join(MEDIA_PATH, dir)):
             os.makedirs(os.path.join(MEDIA_PATH, dir))
-    conv_add_song()
+    parser = argparse.ArgumentParser(description="Конвертер песен для SCRadio")
+    parser.add_argument("song", type=str, help="Песня для конвертации")
+    parser.add_argument("-q", "--quiet", action="store_true", help="Автоматический режим без запросов")
+    parser.add_argument("-a", "--album", type=int, help="ID существующего альбома")
+    parser.add_argument("-p", "--playlist", type=str, help="Имя плейлиста")
+    args = parser.parse_args()
+    print(args)
+    conv_add_song(args.song, args.quiet, args.album, args.playlist)
 	
 			
