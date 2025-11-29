@@ -142,6 +142,7 @@ body {
 	line-height: 24px;
 	vertical-align: middle;
 	display: inline-block;
+	min-width: 1.5em;
 	}
 
 #song-info-title {
