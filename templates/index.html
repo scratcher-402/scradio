@@ -26,12 +26,12 @@
 <i id="song-lyrics" class="fa-solid fa-file-lines"></i>
 <span class="song-like-container">
 <i id="song-dislike" class="fa-regular fa-thumbs-down"></i>
-<span class="likes_count" id="song-dislikes">2</span>
+<span class="likes_count" id="song-dislikes"></span>
 </span>
 <i id="song-play" class="fa-solid fa-play"></i>
 <span class="song-like-container">
 <i id="song-like" class="fa-regular fa-thumbs-up"></i>
-<span class="likes_count" id="song-likes">5</span>
+<span class="likes_count" id="song-likes"></span>
 </span>
 <i id="song-settings" class="fa-solid fa-gear"></i>
 </div>
@@ -47,8 +47,8 @@
 <div class="track-title scroll">{{ metadata.now_playing.title }}</div>
 <div class="track-artist scroll">{{ metadata.now_playing.artist }}</div>
 </div>
-<i class="fa-regular fa-thumbs-up"></i>
-<i class="fa-regular fa-thumbs-down"></i>
+<i class="fa-regular fa-thumbs-up"></i><span class="likes_count"></span>
+<i class="fa-regular fa-thumbs-down"></i><span class="likes_count"></span>
 </div>
 </div>
 <button id="playlist-close" class="modal-btn"><i class="fa-solid fa-close"></i> Закрыть</button>
@@ -306,18 +306,25 @@ function createPlaylistEntry(song, playlistContainer) {
 	const songTitle = document.createElement("div");
 	const songArtist = document.createElement("div");
 	const songLike = document.createElement("i");
+	const songLikesCount = document.createElement("span");
 	const songDislike = document.createElement("i");
+	const songDislikesCount = document.createElement("span");
+
 	
 	// вставляем значения
 	songCover.src = `/static/media/Covers/${song.album_id}.jpg`; // почему я просто не вставил туда ссылку? двойные стандарты api!
 	songTitle.innerText = song.title;
 	songArtist.innerText = song.artist;
+	if (song.likes != 0) songLikesCount.innerText = song.likes;
+	if (song.dislikes != 0) songDislikesCount.innerText = song.dislikes;
 	
 	// добро пожаловать на канал хренового программирования `говнокод тв`!
 	songContainer.classList = "track";
 	songInfo.classList = "track-info";
 	songTitle.classList = "scroll track-title";
 	songArtist.classList = "scroll track-artist";
+	songLikesCount.classList = "likes_count";
+	songDislikesCount.classList = "likes_count";
 	if (song.rating === 1) {
 		songLike.classList = "fa-solid fa-thumbs-up";
 		songDislike.classList = "fa-regular fa-thumbs-down";

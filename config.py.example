@@ -27,6 +27,11 @@ ICECAST_HTTP_PORT = 8000
 WEB_HOST = "127.0.0.1" # leave blank for any host
 WEB_PORT = 8991
 
+# Web options
+META_TAGS = [
+	'<meta name="yandex-verification" content="deadbeef5c12ad10" />'
+]
+
 # Playlist
 ROTATIONS = ("Main", "Pop")
 
