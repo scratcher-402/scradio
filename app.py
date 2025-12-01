@@ -73,6 +73,7 @@ def get_likes(ip, *song_ids):
 	
 	return output
 
+
 # API
 
 api = Blueprint('api', __name__)
@@ -159,6 +160,18 @@ def api_metadata():
 				return jsonify({ "error": "invalid format" }), 400
 		else:
 			return jsonify({ "error": "invalid secret" })
+
+@api.route("/api/top_chart")
+def top_chart():
+    resp = db.execute("select id, title, artist, album_id, (select count(*) from likes where song_id = id and rating = 1) as likes_count, (select count(*) from likes where song_id = id and rating = -1) as dislikes_count from songs where loaded and allowed order by likes_count desc, dislikes_count asc, inthash(id) limit 10;")
+    return jsonify([ {
+        "id": s[0],
+        "title": s[1],
+        "artist": s[2],
+        "album_id": s[3],
+        "likes": s[4],
+        "dislikes": s[5]
+    } for s in resp ])
 
 app.register_blueprint(api)
 

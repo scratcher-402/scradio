@@ -1,5 +1,6 @@
 import psycopg2
 from psycopg2 import OperationalError, InterfaceError
+import time
 
 class AutoReconnectDB:
     def __init__(self, max_retries=3, retry_delay=1, **kwargs):
