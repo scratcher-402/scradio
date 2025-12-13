@@ -129,7 +129,7 @@ def conv_add_song(fn, quiet=False, album_id_arg=None, pl=None):
 	year = meta.year
 	album_id = None
 	artist_solo = None
-	playlist = "Main"
+	playlist = pl if pl else "Main"
 	cover = False
 	correct = False
 	while not correct:
