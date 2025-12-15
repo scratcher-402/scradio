@@ -129,7 +129,7 @@ def conv_add_song(fn, quiet=False, album_id_arg=None, pl=None):
 	year = meta.year
 	album_id = None
 	artist_solo = None
-	playlist = "Main"
+	playlist = pl if pl else "Main"
 	cover = False
 	correct = False
 	while not correct:
@@ -152,7 +152,7 @@ def conv_add_song(fn, quiet=False, album_id_arg=None, pl=None):
 		choice = None if quiet else input("Редактировать текст? [Д/н/Y/n]: ")
 		if choice not in ("н", "Н", "n", "N") and not quiet:
 			lyrics = edit_lyrics(lyrics)
-		_playlist = (pl if pl else "Main") if quiet else input(f"Плейлист[{playlist}]: ")
+		_playlist = (pl if pl else "Main") if quiet or pl else input(f"Плейлист[{playlist}]: ")
 		if _playlist: playlist = _playlist
 		if not cover:
 			choice = None if quiet else input("Получить обложку из файла? [Д/н/Y/n]: ")
