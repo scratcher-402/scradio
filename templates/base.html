@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="icon" href="/static/scradio.png">
+    {% if new_year %}
+    <style>
+    /* New year style */
+    /* This style is loaded only in the new year season */
+    .header {
+    	background-image: url('/static/xmas_tree.png');
+    	background-size: contain;
+    	background-repeat: repeat-x;
+    	background-position: top;
+    }
+    </style>
+    {% endif %}
     {% block head %}
     {% endblock %}
 </head>

@@ -175,9 +175,21 @@ def top_chart():
 
 app.register_blueprint(api)
 
+def check_new_year():
+    now = datetime.now()
+    begin = now.replace(day=15, month=12, hour=0, minute=0, second=0)
+    end = now.replace(day=14, month=1, hour=0, minute=0, second=0)
+    return now >= begin or now <= end
+
+
 @app.context_processor
 def global_variables():
-	return {"version_string": VERSION_STRING, "web_base_url": WEB_BASE_URL, "icecast_base_url": ICECAST_BASE_URL}
+	return {
+	        "version_string": VERSION_STRING,
+	        "web_base_url": WEB_BASE_URL, 
+	        "icecast_base_url": ICECAST_BASE_URL,
+	        "new_year": check_new_year()
+	        }
 
 # Страницы
 
