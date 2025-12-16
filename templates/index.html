@@ -532,4 +532,115 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </div>
 
+{% if new_year %}
+<!-- Новогодний отсчет -->
+<style>
+.counter-box {
+	display: flex;
+	margin-right: auto;
+	margin-left: auto;
+	flex-direction: row;
+	justify-content: center;
+	gap: 8px;
+	align-items: center;
+}
+.counter-item {
+	font-size: 16px;
+	text-align: center;
+	width: 64px;
+}
+.counter-number {
+	font-size: 24px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#counter-message {
+	width: 100%;
+	text-align: center;
+}
+#counter-block {
+	display: none;
+}
+#counter-block img {
+	height: 48px;
+	margin: 0 auto;
+	display: block;
+}
+</style>
+<div class="block2" id="counter-block">
+<div id="counter">
+<h1 id="counter-header">До Нового года осталось</h1>
+<div class="counter-box">
+<span class="counter-item">
+<div class="counter-number" id="ny-days">1</div>
+дней
+</span>
+<span class="counter-sep">:</span>
+<span class="counter-item">
+<div class="counter-number" id="ny-hours">2</div>
+часов
+</span>
+<span class="counter-sep">:</span>
+<span class="counter-item">
+<div class="counter-number" id="ny-mins">3</div>
+минут
+</span>
+<span class="counter-sep">:</span>
+<span class="counter-item">
+<div class="counter-number" id="ny-secs">4</div>
+секунд
+</span>
+</div>
+</div>
+<img src="/static/xmas_decor.png"></img>
+<div id="counter-message">
+<b>С наступающим Новым годом!</b>
+</div>
+</div>
+
+<script>
+let counter = document.getElementById("counter");
+let counterBlock = document.getElementById("counter-block");
+let counterMessage = document.getElementById("counter-message");
+let counterHeader = document.getElementById("counter-header");
+let counterDays = document.getElementById("ny-days");
+let counterHours = document.getElementById("ny-hours");
+let counterMins = document.getElementById("ny-mins");
+let counterSecs = document.getElementById("ny-secs");
+
+let counterInterval = null;
+
+function updateNewYearCounter() {
+	const now = new Date();
+	const currentYear = now.getFullYear();
+	const nextYear = currentYear + 1;
+	const newYear = new Date(`January 1, ${nextYear} 00:00:00`)
+	const timeLeft = newYear - now;
+
+	const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+	const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	const mins = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+	const secs = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+	if (days > 30) {
+		counterMessage.innerHTML = `<b>С новым ${currentYear} годом!</b>`;
+		counter.style.display = 'none';
+		counterHeader.style.display = 'none';
+		clearInterval(counterInterval);
+	} else {
+		counterDays.innerText = days.toString();
+		counterHours.innerText = hours.toString();
+		counterMins.innerText = mins.toString();
+		counterSecs.innerText = secs.toString();
+	}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	updateNewYearCounter();
+	counterBlock.style.display = 'block';
+	counterInterval = setInterval(updateNewYearCounter, 1000);
+});
+</script>
+{% endif %}
+
 {% endblock %}
