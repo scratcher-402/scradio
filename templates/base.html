@@ -19,7 +19,256 @@
     	background-repeat: repeat-x;
     	background-position: top;
     }
-    </style>
+.content {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.snowflakes {
+      position: absolute; /* Меняем с fixed на absolute */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0; /* Снежинки будут под контентом */
+      overflow: hidden;
+    }
+    
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      background-color: #a8d0e6; 
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+    }
+    
+    /* Разные размеры снежинок */
+    .snowflake:nth-child(1) { width: 6px; height: 6px; }
+    .snowflake:nth-child(2) { width: 8px; height: 8px; }
+    .snowflake:nth-child(3) { width: 4px; height: 4px; }
+    .snowflake:nth-child(4) { width: 7px; height: 7px; }
+    .snowflake:nth-child(5) { width: 5px; height: 5px; }
+    
+    @keyframes fallWithSway {
+  0% {
+    transform: translateY(-100px) translateX(0px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+    transform: translateY(20vh) translateX(15px);
+  }
+  25% {
+    transform: translateY(50vh) translateX(5px);
+  }
+  50% {
+    transform: translateY(100vh) translateX(-8px);
+  }
+  75% {
+    transform: translateY(150vh) translateX(6px);
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(200vh) translateX(0px);
+    opacity: 0;
+  }
+}
+
+/* ИЛИ вариант с вращением */
+@keyframes fallRotateSway {
+  0% {
+    transform: translateY(-100px) translateX(0px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+    transform: translateY(20vh) translateX(35px) rotate(180deg);
+  }
+  20% {
+    opacity: 0.8;
+    transform: translateY(40vh) translateX(28px) rotate(180deg);
+  }
+  30% {
+    opacity: 0.95;
+    transform: translateY(60vh) translateX(-45px) rotate(180deg);
+  }
+  40% {
+    opacity: 0.8;
+    transform: translateY(80vh) translateX(17px) rotate(180deg);
+  }
+  50% {
+    transform: translateY(100vh) translateX(38px) rotate(180deg);
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(200vh) translateX(-15px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ИЛИ простой вариант с небольшим раскачиванием */
+@keyframes fallSimpleSway {
+  0% {
+    transform: translateY(-100px) translateX(0px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+    transform: translateY(20vh) translateX(5px) rotate(180deg);
+  }
+  20% {
+    opacity: 0.8;
+    transform: translateY(40vh) translateX(8px) rotate(180deg);
+  }
+  30% {
+    opacity: 0.95;
+    transform: translateY(60vh) translateX(-2px) rotate(180deg);
+  }
+  40% {
+    opacity: 0.8;
+    transform: translateY(80vh) translateX(3px) rotate(180deg);
+  }
+  50% {
+    transform: translateY(100vh) translateX(8px) rotate(180deg);
+  }
+  66% {
+    transform: translateY(132vh) translateX(-10px);
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(200vh) translateX(5px);
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+function createSnowflakes() {
+  const contentElement = document.querySelector('.content');
+  if (!contentElement) return;
+  
+  if (document.querySelector('.snowflakes')) return;
+  
+  const snowflakesContainer = document.createElement('div');
+  snowflakesContainer.className = 'snowflakes';
+  
+  // Создаем 3 разных стиля анимаций
+  const animations = [
+    'fallWithSway',
+    'fallSimpleSway'
+  ];
+  
+  for (let i = 0; i < 200; i++) {
+    const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
+    
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.top = Math.random() * -100 - 20 + 'px';
+    
+    const duration = Math.random() * 10 + 5;
+    const delay = Math.random() * 5;
+    
+    // Выбираем случайную анимацию из трех вариантов
+    const animationType = animations[Math.floor(Math.random() * animations.length)];
+    
+    // Применяем только ОДНУ анимацию!
+    snowflake.style.animation = `${animationType} ${duration}s linear ${delay}s infinite`;
+    
+    // Добавляем мерцание отдельно (оно не конфликтует с transform)
+    snowflake.style.animation += `, sparkle ${Math.random() * 3 + 2}s infinite alternate`;
+    
+    snowflakesContainer.appendChild(snowflake);
+  }
+  
+  contentElement.insertBefore(snowflakesContainer, contentElement.firstChild);
+}
+
+// Если нужны разные паттерны sway для каждой снежинки:
+function createSnowflakesDynamic() {
+  const contentElement = document.querySelector('.content');
+  if (!contentElement) return;
+  
+  if (document.querySelector('.snowflakes')) return;
+  
+  const snowflakesContainer = document.createElement('div');
+  snowflakesContainer.className = 'snowflakes';
+  
+  for (let i = 0; i < 200; i++) {
+    const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
+    
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.top = Math.random() * -100 + 'px';
+    
+    const duration = Math.random() * 10 + 5;
+    const delay = Math.random() * 1;
+    
+    // Генерируем уникальные значения для sway
+    const sway1 = (Math.random() * 20 - 10).toFixed(1); // от -10 до 10
+    const sway2 = (Math.random() * 20 - 10).toFixed(1);
+    const sway3 = (Math.random() * 20 - 10).toFixed(1);
+    
+    // Создаем уникальные keyframes для каждой снежинки
+    const styleId = `snowflake-animation-${i}`;
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `
+      @keyframes fallCustom-${i} {
+        0% {
+          transform: translateY(-100px) translateX(0px);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.8;
+        }
+        33% {
+          transform: translateY(33vh) translateX(${sway1}px);
+        }
+        66% {
+          transform: translateY(66vh) translateX(${sway2}px);
+        }
+        90% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(200vh) translateX(${sway3}px);
+          opacity: 0;
+        }
+      }
+    `;
+    
+    // Удаляем старый стиль если есть
+    const oldStyle = document.getElementById(styleId);
+    if (oldStyle) oldStyle.remove();
+    
+    document.head.appendChild(style);
+    
+    // Применяем уникальную анимацию
+    snowflake.style.animation = `fallCustom-${i} ${duration}s linear ${delay}s infinite`;
+    snowflake.style.animation += `, sparkle ${Math.random() * 3 + 2}s infinite alternate`;
+    
+    snowflakesContainer.appendChild(snowflake);
+  }
+  
+  contentElement.insertBefore(snowflakesContainer, contentElement.firstChild);
+}
+
+// Используйте первый вариант для простоты
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', createSnowflakes);
+} else {
+  createSnowflakes();
+}
+/* (ничего не редактировать, текст в скобках удалить, оплату пришлём через 15 минут) */
+</script>
     {% endif %}
     {% block head %}
     {% endblock %}
