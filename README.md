@@ -1,4 +1,6 @@
 # scradio
+Здесь представлен исходный код проекта SCRadio: https://radio.k0nus.ru/
+
 Онлайн-радиостанция с автоматическим диджеем и веб-сайтом
 ## Зависимости
 - Python 3.10 или новее
@@ -51,7 +53,7 @@ python3 vsrconv.py /path/to/song.mp3
 
 Чтобы сделать новые песни видимыми для стримера, запустите скрипт проверки медиа:
 ```bash
-python3 vsr_check_media.py
+python3 vsrcheck.py
 ```
 ### Запуск
 Для запуска стримера выполните `main.py`, для запуска веб-интерфейса - `app.py`.
@@ -126,7 +128,7 @@ python3 vsr_check_media.py
     "album_id": 75,
     "artist": "Phil Collins",
     "artist_solo": null,
-    "cover_url": "https://scradio.30x.ru/static/media/Covers/75.jpg",
+    "cover_url": "https://radio.k0nus.ru/static/media/Covers/75.jpg",
     "dislikes": 0,
     "duration": 323053,
     "id": 107,
@@ -194,7 +196,7 @@ python3 vsr_check_media.py
 {
   "album": "Metallica",
   "artist": "Metallica",
-  "cover_url": "https://scradio.30x.ru/static/media/Covers/199.jpg",
+  "cover_url": "https://radio.k0nus.ru/static/media/Covers/199.jpg",
   "id": 261,
   "title": "Nothing Else Matters"
 }
