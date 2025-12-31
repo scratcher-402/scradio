@@ -185,47 +185,94 @@ function togglePlay(playBtn, songObj) {
 	};
 };
 
-function likeSong(likeBtn, song_id, rating, again, updateFunc) {
+
+
+function likeSong(likeBtn, song_id, rating, again, oppositeBtn) {
 	if ('fa-spinner' in likeBtn.classList) return;
-	let fetchUrl = "/api/songs/"+song_id+"/like";
-	callbackClass = "fa-thumbs-up";
-	if (rating == -1) {
-		fetchUrl = "/api/songs/"+song_id+"/dislike";
-		callbackClass = "fa-thumbs-down"
-		}
-	if (likeBtn.classList.contains('fa-solid')) {
-		likeBtn.classList = "fa-solid fa-spinner fa-spin";
-		fetch(fetchUrl, {method: "DELETE"})
-		.then((response) => {
-			if (response.ok) {
-				likeBtn.classList = "fa-regular "+callbackClass;
-				updateFunc();
-				console.log("t");
-				}
-			else if (response.status === 429 && (!again)) {
-console.log("rate-limited, retrying in 2s", response);
-setTimeout(() => {likeSong(likeBtn, song_id, rating, false, updateFunc);}, 2000);
-}
-		})
-		.catch(error => {
-			console.log("like error", error);
-		});
+	if (rating === 1) {
+	    let fetchUrl = `/api/songs/${song_id}/like`;
+	    let doDelete = likeBtn.classList.contains("fa-solid");
+	    likeBtn.classList = "fa-solid fa-spinner fa-spin";
+	    if (doDelete) {
+	        fetch(fetchUrl, {method: "DELETE"})
+	        .then(response => {
+	            if (response.ok) {
+	                likeBtn.classList = "fa-regular fa-thumbs-up";
+	            } else if (response.status === 429 && (!again)) {
+	                console.log("rate-limited, retrying in 2s", response);
+	                likeBtn.classList = "fa-solid fa-thumbs-up";
+                    setTimeout(() => {likeSong(likeBtn, song_id, rating, true, oppositeBtn);}, 2000);
+	            } else {
+	                throw new Error("like error - unknown status code");
+	            }
+	        })
+	        .catch(error => {
+	            console.log(error);
+	            likeBtn.classList = "fa-solid fa-thumbs-up";
+	            alert("Не удалось убрать лайк");
+	        });
+	    } else {
+	        fetch(fetchUrl)
+	        .then(response => {
+	            if (response.ok) {
+	                likeBtn.classList = "fa-solid fa-thumbs-up";
+	                oppositeBtn.classList = "fa-regular fa-thumbs-down";
+	            } else if (response.status === 429 && (!again)) {
+	                console.log("rate-limited, retrying in 2s", response);
+	                likeBtn.classList = "fa-regular fa-thumbs-up";
+	                setTimeout(() => {likeSong(likeBtn, song_id, rating, true, oppositeBtn);}, 2000);
+	            } else {
+	                throw new Error("like error - unknown status code")
+	            }
+	        })
+	        .catch(error => {
+	            console.log(error);
+	            likeBtn.classList = "fa-regular fa-thumbs-up";
+	            alert("Не удалось поставить лайк")
+	        });
+	    }
 	} else {
-		likeBtn.classList = "fa-solid fa-spinner fa-spin";
-		fetch(fetchUrl)
-		.then((response) => {
-			if (response.ok) {
-				likeBtn.classList = "fa-solid "+callbackClass;
-				updateFunc();
-				}
-			else if (response.status === 429 && (!again)) {
-console.log("rate-limited, retrying in 2s", response);
-setTimeout(() => {likeSong(likeBtn, song_id, rating, false, updateFunc);}, 2000);
-}
-		})
-		.catch(error => {
-			console.log("like error", error);
-		});
+	    let fetchUrl = `/api/songs/${song_id}/dislike`;
+	    let doDelete = likeBtn.classList.contains("fa-solid");
+	    likeBtn.classList = "fa-solid fa-spinner fa-spin";
+	    if (doDelete) {
+	    	fetch(fetchUrl, {method: "DELETE"})
+	    	.then(response => {
+	    	    if (response.ok) {
+	    	        likeBtn.classList = "fa-regular fa-thumbs-down";
+	    	    } else if (response.status === 429 && (!again)) {
+	    	        console.log("rate-limited, retrying in 2s", response);
+	    	        likeBtn.classList = "fa-solid fa-thumbs-down";
+	                setTimeout(() => {likeSong(likeBtn, song_id, rating, false, oppositeBtn);}, 2000);
+	    	    } else {
+	    	        throw new Error("like error - unknown status code");
+	    	        }
+	    	    })
+	            .catch(error => {
+	                console.log(error);
+	   	            likeBtn.classList = "fa-solid fa-thumbs-down";
+	   	            alert("Не удалось убрать дизлайк");
+	   	        });
+   	    } else {
+	        fetch(fetchUrl)
+ 	        .then(response => {
+	    	     if (response.ok) {
+	                 likeBtn.classList = "fa-solid fa-thumbs-down";
+	                 oppositeBtn.classList = "fa-regular fa-thumbs-up";
+	    	     } else if (response.status === 429 && (!again)) {
+	                 console.log("rate-limited, retrying in 2s", response);
+	    	         likeBtn.classList = "fa-regular fa-thumbs-down";
+	    	         setTimeout(() => {likeSong(likeBtn, song_id, rating, false, oppositeBtn);}, 2000);
+	    	     } else {
+	    	         throw new Error("like error - unknown status code")
+	    	     }
+	    	 })
+	    	 .catch(error => {
+	    	     console.log(error);
+	    	     likeBtn.classList = "fa-regular fa-thumbs-down";
+	    	     alert("Не удалось поставить дизлайк")
+	    	 });
+	    }
 	}
 };
 
@@ -270,18 +317,11 @@ function createPlaylistEntry(song, playlistContainer) {
 	
 	// обработчики
 	songLike.addEventListener('click', () => {
-		likeSong(songLike, song.id, 1, false, () => {
-if (songLike.classList.contains('fa-solid')) song.rating = 1;
-else song.rating = null;
-autoUpdatePlaylist();});
-		});
+		likeSong(songLike, song.id, 1, false, songDislike);
+	});
 	songDislike.addEventListener('click', () => {
-		likeSong(songDislike, song.id, -1, false, () => {
-if (songDislike.classList.contains('fa-solid')) song.rating = -1;
-else song.rating = null;
-autoUpdatePlaylist();});
-		});
-	
+		likeSong(songDislike, song.id, -1, false, songLike);
+	});
 	// улучшаем демографическую ситуацию
 	songContainer.appendChild(songCover);
 	songContainer.appendChild(songInfo);
@@ -420,14 +460,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	
 	likeBtn.addEventListener('click', () => {
-		song_id = metadata["now_playing"]["id"];
-		console.log(song_id);
-		likeSong(likeBtn, song_id, 1, false, () => {updateMetadata(songObj, false);});
+		let song_id = metadata["now_playing"]["id"];
+		likeSong(likeBtn, song_id, 1, false, dislikeBtn);
 	});
 	
 	dislikeBtn.addEventListener('click', () => {
-		song_id = metadata["now_playing"]["id"];
-		likeSong(dislikeBtn, song_id, -1, false, () => {updateMetadata(songObj, false);});
+		let song_id = metadata["now_playing"]["id"];
+		likeSong(dislikeBtn, song_id, -1, false, likeBtn);
 	});
 	
 	lyricsBtn.addEventListener('click', () => {
