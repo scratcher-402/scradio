@@ -81,11 +81,12 @@ body {
 	color: inherit;
 	}
 
+/* Player */
 .player {
 	border: 1px solid black;
 	border-radius: 10px;
 	overflow: hidden;
-	height: 150px;
+	/* height: 150px; */
 	width: clamp(300px, 100%, 700px);
 	}
 
@@ -142,7 +143,7 @@ body {
 	line-height: 24px;
 	vertical-align: middle;
 	display: inline-block;
-	min-width: 1.5em;
+	/* min-width: 1.5em; */
 	}
 
 #song-info-title {
@@ -152,6 +153,18 @@ body {
 	margin-left: 0;
 	max-width: calc(100% - 10px);
 	}
+
+.error-message {
+    display: none;
+    padding: 10px;
+    color: red;
+    padding-top: 0;
+    font-weight: bold;
+}
+
+.error-message-text {
+    margin-left: 5px;
+}
 
 .scroll {
 	margin: 0;
