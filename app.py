@@ -115,6 +115,7 @@ metadata_updated = False
 @api.route("/api/metadata", methods=["GET", "POST"])
 def api_metadata():
     global metadata
+    global metadata_updated
     if request.method == "GET":
         if not metadata_updated:
             return jsonify({ "error": "No metadata"}), 404
@@ -173,6 +174,7 @@ def api_metadata():
                 metadata["next_songs"] = j["next_songs"]
                 metadata["now_playing"] = j["now_playing"]
                 metadata["received"] = datetime.now().timestamp()
+                metadata_updated = True
                 return jsonify(metadata)
             else:
                 return jsonify({ "error": "invalid format" }), 400
