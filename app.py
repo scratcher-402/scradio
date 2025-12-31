@@ -124,7 +124,7 @@ def api_metadata():
         if f == "full":
             if request.args.get("likes"):
                 copied_meta = copy.deepcopy(metadata)
-                if not metadata["is_dummy"]:
+                if not metadata.get("is_dummy"):
                     prev_id = [ s["id"] for s in copied_meta["prev_songs"] ]
                     next_id = [ s["id"] for s in copied_meta["next_songs"] ]
                     now_id = [ copied_meta["now_playing"]["id"] ]
