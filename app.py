@@ -109,13 +109,14 @@ def api_song_dislike(id):
 
 
 
-metadata = None #{"prev_songs": [], "now_playing": {}, "next_songs": [], "received": None}
+metadata = {"prev_songs": [], "now_playing": {}, "next_songs": [], "received": None}
+metadata_updated = False
 
 @api.route("/api/metadata", methods=["GET", "POST"])
 def api_metadata():
     global metadata
     if request.method == "GET":
-        if metadata == None:
+        if not metadata_updated:
             return jsonify({ "error": "No metadata"}), 404
         f = request.args.get("format")
         if not f: f = "full"
@@ -277,4 +278,5 @@ if __name__ == "__main__":
             "received": datetime.now().timestamp(),
             "is_dummy": True
         }
+        metadata_updated = True
     app.run(WEB_HOST, WEB_PORT, debug=True)
