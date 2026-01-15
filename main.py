@@ -112,7 +112,14 @@ class SmartPlaylist:
 
 def fetch_songs_from_db():
 	db = AutoReconnectDB(host=DB_HOST, port=DB_PORT, user=DB_USER, password=DB_PASSWORD, dbname=DB_NAME)
-	r = db.execute("select s.id, s.title, s.artist, s.album, s.artist_solo, s.lyrics, s.album_id, s.filename, s.playlist, s.duration, a.cover_filename from songs s, albums a where s.loaded = true and s.allowed = true and a.id = s.album_id order by random();")
+	r = db.execute("""select s.id, s.title, s.artist, s.album, s.artist_solo, s.lyrics, s.album_id, s.filename, s.playlist, s.duration, a.cover_filename
+	from songs s, albums a 
+	where 
+	    s.loaded = true 
+	    and s.allowed = true 
+	    and a.id = s.album_id 
+	    and s.playlist in %s
+	order by random();""", (ROTATIONS,))
 	songs = [ Song(*row) for row in r ]
 	print(r)
 	db.close()
