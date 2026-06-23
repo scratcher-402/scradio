@@ -37,3 +37,7 @@ BUFSIZE = 65536
 WEB_BASE_URL = f"http://{WEB_HOST}:{WEB_PORT}/"
 ICECAST_BASE_URL = f"http://{ICECAST_HTTP_HOST}:{ICECAST_HTTP_PORT}/"  # you can change http to https
 DEFAULT_EDITOR = "micro"
+
+# Yggdrasil support (optional)
+WEB_YGG_BASE_URL = "http://[300:dead:beef:5c12:ad10::]/"
+ICECAST_YGG_BASE_URL = "http://[300:dead:beef:5c12:ad10::]:8000/"

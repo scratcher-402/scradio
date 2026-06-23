@@ -5,6 +5,7 @@ import psycopg2
 from psycopg2 import OperationalError, InterfaceError
 import time
 import copy
+from util import *
 from config import *
 from version import *
 from datetime import datetime, timedelta
@@ -204,11 +205,13 @@ def check_new_year():
 
 @app.context_processor
 def global_variables():
+    ygg = is_yggdrasil(request.remote_addr)
     return {
             "version_string": VERSION_STRING,
-            "web_base_url": WEB_BASE_URL, 
-            "icecast_base_url": ICECAST_BASE_URL,
-            "new_year": check_new_year()
+            "web_base_url": WEB_YGG_BASE_URL if ygg else WEB_BASE_URL, 
+            "icecast_base_url": ICECAST_YGG_BASE_URL if ygg else ICECAST_BASE_URL,
+            "new_year": check_new_year(),
+            "is_yggdrasil": ygg
             }
 
 # Страницы
