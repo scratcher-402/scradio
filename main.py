@@ -9,6 +9,7 @@ import traceback
 import requests
 import threading
 from db import *
+from version import *
 
 @dataclass
 class Song:
