@@ -6,7 +6,11 @@
     { tag|safe }
     {% endfor %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if is_yggdrasil %}
+    <link rel="stylesheet" href="http://[300:7edb:435a:c68f::cdcd]/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    {% else %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    {% endif %}
     <link rel="stylesheet" href="/static/style.css">
     <link rel="icon" href="/static/scradio.png">
     {% if new_year %}
@@ -19,22 +23,22 @@
     	background-repeat: repeat-x;
     	background-position: top;
     }
-.content {
-  position: relative;
-  overflow-x: hidden;
-}
+    .content {
+      position: relative;
+      overflow-x: hidden;
+    }
 
-.snowflakes {
-      position: absolute; /* Меняем с fixed на absolute */
+    .snowflakes {
+      position: absolute; 
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 0; /* Снежинки будут под контентом */
+      z-index: 0; 
       overflow: hidden;
     }
-    
+        
     .snowflake {
       position: absolute;
       top: -10px;
@@ -43,7 +47,7 @@
       pointer-events: none;
       opacity: 0.8;
     }
-    
+
     /* Разные размеры снежинок */
     .snowflake:nth-child(1) { width: 6px; height: 6px; }
     .snowflake:nth-child(2) { width: 8px; height: 8px; }
@@ -52,103 +56,103 @@
     .snowflake:nth-child(5) { width: 5px; height: 5px; }
     
     @keyframes fallWithSway {
-  0% {
-    transform: translateY(-100px) translateX(0px);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.8;
-    transform: translateY(20vh) translateX(15px);
-  }
-  25% {
-    transform: translateY(50vh) translateX(5px);
-  }
-  50% {
-    transform: translateY(100vh) translateX(-8px);
-  }
-  75% {
-    transform: translateY(150vh) translateX(6px);
-  }
-  90% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(200vh) translateX(0px);
-    opacity: 0;
-  }
-}
+      0% {
+        transform: translateY(-100px) translateX(0px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+        transform: translateY(20vh) translateX(15px);
+      }
+      25% {
+        transform: translateY(50vh) translateX(5px);
+      }
+      50% {
+        transform: translateY(100vh) translateX(-8px);
+      }
+      75% {
+        transform: translateY(150vh) translateX(6px);
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(200vh) translateX(0px);
+        opacity: 0;
+      }
+    }
 
-/* ИЛИ вариант с вращением */
-@keyframes fallRotateSway {
-  0% {
-    transform: translateY(-100px) translateX(0px) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.9;
-    transform: translateY(20vh) translateX(35px) rotate(180deg);
-  }
-  20% {
-    opacity: 0.8;
-    transform: translateY(40vh) translateX(28px) rotate(180deg);
-  }
-  30% {
-    opacity: 0.95;
-    transform: translateY(60vh) translateX(-45px) rotate(180deg);
-  }
-  40% {
-    opacity: 0.8;
-    transform: translateY(80vh) translateX(17px) rotate(180deg);
-  }
-  50% {
-    transform: translateY(100vh) translateX(38px) rotate(180deg);
-  }
-  90% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(200vh) translateX(-15px) rotate(360deg);
-    opacity: 0;
-  }
-}
+    /* ИЛИ вариант с вращением */
+    @keyframes fallRotateSway {
+      0% {
+        transform: translateY(-100px) translateX(0px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.9;
+        transform: translateY(20vh) translateX(35px) rotate(180deg);
+      }
+      20% {
+        opacity: 0.8;
+        transform: translateY(40vh) translateX(28px) rotate(180deg);
+      }
+      30% {
+        opacity: 0.95;
+        transform: translateY(60vh) translateX(-45px) rotate(180deg);
+      }
+      40% {
+        opacity: 0.8;
+        transform: translateY(80vh) translateX(17px) rotate(180deg);
+      }
+      50% {
+        transform: translateY(100vh) translateX(38px) rotate(180deg);
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(200vh) translateX(-15px) rotate(360deg);
+        opacity: 0;
+      }
+    }
 
-/* ИЛИ простой вариант с небольшим раскачиванием */
-@keyframes fallSimpleSway {
-  0% {
-    transform: translateY(-100px) translateX(0px);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.9;
-    transform: translateY(20vh) translateX(5px) rotate(180deg);
-  }
-  20% {
-    opacity: 0.8;
-    transform: translateY(40vh) translateX(8px) rotate(180deg);
-  }
-  30% {
-    opacity: 0.95;
-    transform: translateY(60vh) translateX(-2px) rotate(180deg);
-  }
-  40% {
-    opacity: 0.8;
-    transform: translateY(80vh) translateX(3px) rotate(180deg);
-  }
-  50% {
-    transform: translateY(100vh) translateX(8px) rotate(180deg);
-  }
-  66% {
-    transform: translateY(132vh) translateX(-10px);
-  }
-  90% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(200vh) translateX(5px);
-    opacity: 0;
-  }
-}
-</style>
+    /* ИЛИ простой вариант с небольшим раскачиванием */
+    @keyframes fallSimpleSway {
+      0% {
+        transform: translateY(-100px) translateX(0px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.9;
+        transform: translateY(20vh) translateX(5px) rotate(180deg);
+      }
+      20% {
+        opacity: 0.8;
+        transform: translateY(40vh) translateX(8px) rotate(180deg);
+      }
+      30% {
+        opacity: 0.95;
+        transform: translateY(60vh) translateX(-2px) rotate(180deg);
+      }
+      40% {
+        opacity: 0.8;
+        transform: translateY(80vh) translateX(3px) rotate(180deg);
+      }
+      50% {
+        transform: translateY(100vh) translateX(8px) rotate(180deg);
+      }
+      66% {
+        transform: translateY(132vh) translateX(-10px);
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(200vh) translateX(5px);
+        opacity: 0;
+      }
+    }
+    </style>
 
 <script>
 function createSnowflakes() {
@@ -282,7 +286,11 @@ if (document.readyState === 'loading') {
 {% endblock %}
 </div>
 <div class="footer">
+{% if is_yggdrasil %}
+SCRadio (VSRadio) {{version_string}}-github (Yggdrasil)
+{% else %}
 SCRadio (VSRadio) {{version_string}}-github
+{% endif %}
 <div class="links">
 <a href="/feedback"><i class="fa-solid fa-paper-plane"></i> Обратная связь </a>
 <a href="/info"><i class="fa-solid fa-tower-broadcast"></i> Как послушать </a>
